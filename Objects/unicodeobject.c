@@ -11629,16 +11629,10 @@ PyUnicode_Concat(PyObject *left, PyObject *right)
         return NULL;
 
     if (!PyUnicode_Check(right)) {
-        if (_PyTemplate_CheckExact(right)) {
-            // str + tstring is implemented in the tstring type
-            return _PyTemplate_Concat(left, right);
-        }
-        else {
-            PyErr_Format(PyExc_TypeError,
-                "can only concatenate str (not \"%.200s\") to str",
-                Py_TYPE(right)->tp_name);
-            return NULL;
-        }
+        PyErr_Format(PyExc_TypeError,
+            "can only concatenate str (not \"%.200s\") to str",
+            Py_TYPE(right)->tp_name);
+        return NULL;
     }
 
     /* Shortcuts */
